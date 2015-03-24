@@ -4,20 +4,16 @@
 <head>
 <meta charset="UTF-8" />
 <title> ICA Blazers | Iowa Christian </title>
+<script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
 <link href="style.css" rel="stylesheet" type="text/css">
-<!--[if IE]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<!--[if IE 6]>
+
 <script src="js/belatedPNG.js"></script>
 <script>
 	DD_belatedPNG.fix('*');
 </script>
-
-
-<script src="https://apis.google.com/js/client.js?onload=OnLoadCallback"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script>
     $(function() {
         $.ajax({
@@ -27,18 +23,37 @@
             console.log('Yay!');
             console.log('%o', data);
 
-            var someEvent = data.feed.entry[0].title.$t;
+            var resultsString = data.feed.openSearch$totalResults.$t
+            var resultsNumber = resultsString.toNumber
 
-            console.log(someEvent);
+            var eventTitle1 = data.feed.entry[resultsNumber].title.$t;
+            var eventDate1 = data.feed.entry[resultsNumber].summary
+
+            var eventTitle2 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle3 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle4 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle5 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle6 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle7 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle8 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle9 = data.feed.entry[resultsNumber].title.$t;
+
+            var eventTitle10 = data.feed.entry[resultsNumber].title.$t;
+
+            console.log(eventTitle1);
             document.getElementById("title1").innerHTML=
-                    someEvent;
+                    eventTitle1 + "<br>" + resultsNumber;
         });
 
     });
 </script>
-
-
-<![endif]-->
 
 </head>
 
