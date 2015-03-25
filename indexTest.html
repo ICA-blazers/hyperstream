@@ -14,46 +14,31 @@
 <script>
 	DD_belatedPNG.fix('*');
 </script>
+
 <script>
     $(function() {
         $.ajax({
             method: 'GET',
+
             url: 'https://www.google.com/calendar/feeds/h965v5kurp2qi8cgo0nqgt1ue4%40group.calendar.google.com/public/basic?alt=json'
         }).then(function(data) {
             console.log('Yay!');
             console.log('%o', data);
+            var events = data.feed.entry || []; //    USE HERE    https://developers.google.com/gdata/docs/json
+            var html = ['<ul>'];
 
-            //var resultsString = data.feed.openSearch$totalResults.$t
-            //var resultsNumber = resultsString.toNumber
+            for (var i = 0; i < events.length; ++i) {
+                var event = events[i]
+                var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
+                var when = (event.summary.$t.substring(0,event.summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e')))
+                var time = (event['gd$when']) ? event['gd$when'][0].startTime : "";
 
-            var eventTitle1 = data.feed.entry[0].title.$t;
-            //var eventDate1 = data.feed.entry[resultsString].summary.$t.substring(0, data.feed.entry[resultsString].summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e'));
-
-            //var eventTitle2 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle3 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle4 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle5 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle6 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle7 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle8 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle9 = data.feed.entry[resultsNumber].title.$t;
-
-            //var eventTitle10 = data.feed.entry[resultsNumber].title.$t;
-
-            document.getElementById("title1").innerHTML=
-                    eventTitle1;
-            //document.getElementById("date1").innerHTML=
-                    //eventDate1;
+                html.push('<li>', title, ' ', when, '</li>');
+            }
+            html.push('</ul>');
+            document.getElementById("upcomingEvents").innerHTML = html.join("");
+        })
         });
-
-    });
 </script>
 
 </head>
@@ -129,9 +114,7 @@
 
     <p>Everyone at some point in their school career has been stressed out. Whether it be because or sports, friendships, jobs, or test anxiety it happens to everyone. With this website, not only will you get simple tips on how to help you to calm down and use your time wisely, bu you will get a calendar that will help you know when assignments are due, when tests will be held and when school events will be.  <a href="#"></a></p>
         <p>Planners are one of the most beneficial things you can do not only for your grades but just to organize your life. Things you should put in your planner include assignments, tests, quizzes, and after school events you will be attending so you can plan out when you have time to study. In order for your planner to really work for you, you should use it every single day. Check it in the morning, check it at night, and throughout the day write what you need to be doing. Highlight any assignments that are important or certain assignments that are tests with different colors. For example, highlight tests with a pink highlighter and any homework assignments with a yellow highlighter. This will help you categorize certain things. You could also use sticky notes to mark down when certain events will be, such as a project being due. Using a planner will help you track down what you need to do and help everything be planned accordingly. It also reduces a lot of stress. Writing down assignments helps you feel more in control of things. Good luck, students! Happy planning!  </p>
-        <p id="title1"></p>
-        <p id="date1"></p>
-        <p id="summary1"></p>
+        <p id="upcomingEvents"></p>
     </div>
 
     </article>
