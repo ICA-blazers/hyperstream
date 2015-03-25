@@ -28,11 +28,24 @@
             var html = ['<ul>'];
 
             for (var i = 0; i < events.length; ++i) {
-                var event = events[i]
+                var event = events[i];
                 var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
-                var when = (event.summary.$t.substring(0,event.summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e')))
+                var when = (event.summary.$t.substring(0,event.summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e')));
 
-                html.push('<li>', title, ' ', '<p id=dates>', when, '</p>', '</li>');
+                var currentDate = new Date();
+                var currentDay = currentDate.getDate();
+                var currentMonth = currentDate.getMonth()+1;
+                var currentYear = currentDate.getFullYear();
+
+                var eventDay = event.summary.$t.substring(14,16);
+                var eventMonth = event.summary.$t.substring(10,13);
+                var eventYear = event.summary.$t.substring(18,22);
+
+                var monthList = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+
+                if (eventYear.toNumber >= currentYear &&) //FINISH EVENT DATE QUALIFIERS
+
+                html.push('<div>', title, ' ', '<p id=dates>', when, '</p>', '</div>');
             }
             html.push('</ul>');
             document.getElementById("upcomingEvents").innerHTML = html.join("");
