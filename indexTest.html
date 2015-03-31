@@ -32,6 +32,8 @@
                 var event = events[i];
                 var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
                 var when = (event.summary.$t.substring(5, event.summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e')));
+                ///DESCRIPTION IDENTIFIER AND WHERE IDENTIFIER EDIT AND CREATE
+                var description = (event.summary.$t.substring(event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:')+36,9000))
 
                 var eventMonth = event.summary.$t.substring(10, 13).toLowerCase();
                 var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
@@ -59,16 +61,13 @@
                     year: eventYear,
                     month: eventMonthNumber,
                     day: eventDay,
-                    when: when
+                    when: when,
+                    description: description
                 };
                 eventSorted.push(eventObject);
             }
 
             for (var i=0; i < events.length; ++i) {
-
-                var event = events[i];
-                var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
-                var when = (event.summary.$t.substring(5, event.summary.$t.indexOf('\u003cbr\u003e\n\n\n\u003cbr\u003e')));
 
                 var currentDate = new Date();
                 var currentDay = currentDate.getDate();
@@ -90,7 +89,7 @@
                         eventSorted[events.length-1-i].year == currentYear && eventSorted[events.length-1-i].month > currentMonth ||
                         eventSorted[events.length-1-i].year == currentYear && eventSorted[events.length-1-i].month == currentMonth && eventSorted[events.length-1-i].day >= currentDay
                 ){
-                    html.push('<div>', eventSorted[i].title, ' ', '<span id=dates>', eventSorted[i].when, '</span>', '</div>');
+                    html.push('<div>', eventSorted[i].title, ' ', '<span id=dates>', eventSorted[i].when, '</span>', '<div>', eventSorted[i].description, '</div>','</div>');
                 }
             }
             html.push('</ul>');
