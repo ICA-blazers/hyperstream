@@ -68,26 +68,41 @@
                 eventSorted.push(eventObject);
             }
 
-            for (var i=0; i < events.length; ++i) {
+
+            eventSorted.sort(function (a,b){
+                if (a.year > b.year) return 1;
+                if (a.year == b.year && a.month > b.month) return 1;
+                if (a.year == b.year && a.month < b.month) return -1;
+                if (a.year == b.year && a.month == b.month && a.day > b.day) return 1;
+                if (a.year == b.year && a.month == b.month && a.day < b.day) return -1;
+                if (a.year == b.year && a.month == b.month && a.day == b.day) return 0;
+                if (a.year < b.year) return -1;
+            });
+
+
+            for (var i=0; i < events.length && i < 10; ++i) {
 
                 var currentDate = new Date();
                 var currentDay = currentDate.getDate();
                 var currentMonth = currentDate.getMonth() + 1;
                 var currentYear = currentDate.getFullYear();
 
-
-                //EDIT THIS PLACE HERE
-
-                eventSorted.sort(function (a){currentYear - a.year || currentMonth - a.month || currentDay - a.day});
-
-                console.log(eventSorted[events.length-1-i].title);
-
                 if (
-                        eventSorted[events.length-1-i].year > currentYear ||
-                        eventSorted[events.length-1-i].year == currentYear && eventSorted[events.length-1-i].month > currentMonth ||
-                        eventSorted[events.length-1-i].year == currentYear && eventSorted[events.length-1-i].month == currentMonth && eventSorted[events.length-1-i].day >= currentDay
+                        eventSorted[i].year > currentYear ||
+                        eventSorted[i].year == currentYear && eventSorted[i].month > currentMonth ||
+                        eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
                 ){
-                    html.push('<div>', eventSorted[i].title, ' ', '<span id=dates>', eventSorted[i].when, '</span>', '<div>', eventSorted[i].description, '</div>','</div>');
+                    html.push(
+                            '<div>',
+                            eventSorted[i].title,
+                            ' ',
+                            '<span id=dates>',
+                            eventSorted[i].when,
+                            '</span>',
+                            '<div>',
+                            eventSorted[i].description,
+                            '</div>',
+                            '</div>');
                 }
             }
             html.push('</ul>');
