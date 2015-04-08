@@ -24,7 +24,7 @@ a:hover {color:#000;}
 #mainnav li { display:block; font-family:"Helvetica Neue", Helvetica, Verdana, sans-serif;}
 #mainnav ul {padding: 15px;}
 #mainnav a {display:block; height:23px; line-height:23px; padding:0 7px; color:#635a4e; border-right:solid 1px #e0dad1;}
-#mainnav .current a {background:url(images/arrowtop.png) center bottom no-repeat; }
+#mainnav .current a {background:url(images/) center bottom no-repeat; }
 #mainnav a:hover {color: #a60b17;}
 a.resume {position:absolute; display:block; background:url(images/resumelink.png) no-repeat; width:215px; height:93px; right:0; bottom:0; text-indent:-4000px; overflow:hidden; z-index:500;}
 #search {background:url(images/searchfield.png) no-repeat; height:33px; margin-bottom:40px;}
