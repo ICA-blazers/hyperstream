@@ -115,6 +115,19 @@
         });
 </script>
 
+    <script>
+        function poll(vote) {
+                xmlhttp=new XMLHttpRequest();
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    document.getElementById("poll").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("GET","pollCollector.php?vote="+vote,true);
+            xmlhttp.send();
+        }
+    </script>
+
 </head>
 
 <body>
@@ -143,6 +156,19 @@
 
     <section id="sidebar">
         <div class="sb-block">
+            <div id="poll">
+                <h1>What is your favorite Pokemon?</h1>
+                <form>
+                    Mudkip:
+                    <input type="radio" name="vote" value="0" onclick="poll(this.value)"><br>
+                    Bidoof:
+                    <input type="radio" name="vote" value="1" onclick="poll(this.value)"><br>
+                    Cyndaquil:
+                    <input type="radio" name="vote" value="2" onclick="poll(this.value)"><br>
+                    Will McGrath:
+                    <input type="radio" name="vote" value="3" onclick="poll(this.value)">
+                </form>
+            </div>
             <a href=""><img src="images/Untitled-2.jpg" width="182" height="174" alt="css heaven free css templates"></a>
         </div>
     <div class="sb-block">
