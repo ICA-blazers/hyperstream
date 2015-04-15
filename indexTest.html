@@ -8,6 +8,7 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
 <link href="style.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 
 <script src="js/belatedPNG.js"></script>
@@ -15,142 +16,159 @@
 	DD_belatedPNG.fix('*');
 </script>
 
-<script>
-    $(function() {
-        $.ajax({
-            method: 'GET',
+    <script>
+        $(function() {
+            $.ajax({
+                method: 'GET',
 
-            url: 'https://www.google.com/calendar/feeds/h965v5kurp2qi8cgo0nqgt1ue4%40group.calendar.google.com/public/basic?alt=json'
-        }).then(function(data) {
-            console.log('Yay!');
-            console.log('%o', data);
-            var events = data.feed.entry || []; //    USE HERE    https://developers.google.com/gdata/docs/json
-            var html = [];
-            var eventSorted = [];
+                url: 'https://www.google.com/calendar/feeds/h965v5kurp2qi8cgo0nqgt1ue4%40group.calendar.google.com/public/basic?alt=json'
+            }).then(function(data) {
+                console.log('Yay!');
+                console.log('%o', data);
+                var events = data.feed.entry || []; //    USE HERE    https://developers.google.com/gdata/docs/json
+                var html = [];
+                var eventSorted = [];
 
-            for (var i = 0; i < events.length; ++i) {
-                var event = events[i];
-                var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
-                var when = (event.summary.$t.substring(event.summary.$t.indexOf("When:")+6, event.summary.$t.indexOf('\u003cbr')));
-                if (event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:') != -1){
-                    var description = (event.summary.$t.substring(event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:')+36));
+                for (var i = 0; i < events.length; ++i) {
+                    var event = events[i];
+                    var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
+                    var when = (event.summary.$t.substring(event.summary.$t.indexOf("When:")+6, event.summary.$t.indexOf('\u003cbr')));
+                    if (event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:') != -1){
+                        var description = (event.summary.$t.substring(event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:')+36));
+                    }
+                    else {
+                        var description = ('');
+                    }
+                    var where = (event.summary.$t.substring(event.summary.$t.indexOf('\u003eWhere:')+8, event.summary.$t.indexOf('\n\u003cbr\u003eEvent Status:')));
+
+                    var eventMonth = event.summary.$t.substring(event.summary.$t.indexOf('When: ')+10, event.summary.$t.indexOf('When: ')+13).toLowerCase();
+                    var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
+                    var eventDay = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') - 2, event.summary.$t.indexOf(', ')));
+
+                    var monthList = {
+                        'jan': 1,
+                        'feb': 2,
+                        'mar': 3,
+                        'apr': 4,
+                        'may': 5,
+                        'jun': 6,
+                        'jul': 7,
+                        'aug': 8,
+                        'sep': 9,
+                        'oct': 10,
+                        'nov': 11,
+                        'dec': 12
+                    };
+                    var eventMonthNumber = monthList[eventMonth];
+
+                    var eventObject = {
+                        id: i,
+                        title: title,
+                        year: eventYear,
+                        month: eventMonthNumber,
+                        day: eventDay,
+                        when: when,
+                        description: description,
+                        where: where
+                    };
+                    eventSorted.push(eventObject);
                 }
-                else {
-                    var description = ('');
+
+
+                eventSorted.sort(function (a,b){
+                    if (a.year > b.year) return 1;
+                    if (a.year == b.year && a.month > b.month) return 1;
+                    if (a.year == b.year && a.month < b.month) return -1;
+                    if (a.year == b.year && a.month == b.month && a.day > b.day) return 1;
+                    if (a.year == b.year && a.month == b.month && a.day < b.day) return -1;
+                    if (a.year == b.year && a.month == b.month && a.day == b.day) return 0;
+                    if (a.year < b.year) return -1;
+                });
+
+
+                for (var i=0; i < events.length && i < 10; ++i) {
+
+                    var currentDate = new Date();
+                    var currentDay = currentDate.getDate();
+                    var currentMonth = currentDate.getMonth() + 1;
+                    var currentYear = currentDate.getFullYear();
+
+                    if (
+                            eventSorted[i].year > currentYear ||
+                            eventSorted[i].year == currentYear && eventSorted[i].month > currentMonth ||
+                            eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
+                    ){
+                        html.push(
+                                eventSorted[i].title,
+                                ' ',
+                                '<span class=date>',
+                                eventSorted[i].when,
+                                '</span>',
+                                '<div>',
+                                eventSorted[i].description,
+                                '</div>');
+                    }
                 }
-                var where = (event.summary.$t.substring(event.summary.$t.indexOf('\u003eWhere:')+8, event.summary.$t.indexOf('\n\u003cbr\u003eEvent Status:')));
-
-                var eventMonth = event.summary.$t.substring(event.summary.$t.indexOf('When: ')+10, event.summary.$t.indexOf('When: ')+13).toLowerCase();
-                var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
-                var eventDay = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') - 2, event.summary.$t.indexOf(', ')));
-
-                var monthList = {
-                    'jan': 1,
-                    'feb': 2,
-                    'mar': 3,
-                    'apr': 4,
-                    'may': 5,
-                    'jun': 6,
-                    'jul': 7,
-                    'aug': 8,
-                    'sep': 9,
-                    'oct': 10,
-                    'nov': 11,
-                    'dec': 12
-                };
-                var eventMonthNumber = monthList[eventMonth];
-
-                var eventObject = {
-                    id: i,
-                    title: title,
-                    year: eventYear,
-                    month: eventMonthNumber,
-                    day: eventDay,
-                    when: when,
-                    description: description,
-                    where: where
-                };
-                eventSorted.push(eventObject);
-            }
-
-
-            eventSorted.sort(function (a,b){
-                if (a.year > b.year) return 1;
-                if (a.year == b.year && a.month > b.month) return 1;
-                if (a.year == b.year && a.month < b.month) return -1;
-                if (a.year == b.year && a.month == b.month && a.day > b.day) return 1;
-                if (a.year == b.year && a.month == b.month && a.day < b.day) return -1;
-                if (a.year == b.year && a.month == b.month && a.day == b.day) return 0;
-                if (a.year < b.year) return -1;
-            });
-
-
-            for (var i=0; i < events.length && i < 10; ++i) {
-
-                var currentDate = new Date();
-                var currentDay = currentDate.getDate();
-                var currentMonth = currentDate.getMonth() + 1;
-                var currentYear = currentDate.getFullYear();
-
-                if (
-                        eventSorted[i].year > currentYear ||
-                        eventSorted[i].year == currentYear && eventSorted[i].month > currentMonth ||
-                        eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
-                ){
-                    html.push(
-                            eventSorted[i].title,
-                            ' ',
-                            '<span class=date>',
-                            eventSorted[i].when,
-                            '</span>',
-                            '<div>',
-                            eventSorted[i].description,
-                            '</div>');
-                }
-            }
-            document.getElementById("upcomingEvents").innerHTML = html.join("");
-        })
+                document.getElementById("upcomingEvents").innerHTML = html.join("");
+            })
         });
-</script>
-
+    </script>
     <script>
         function poll(vote) {
-                xmlhttp=new XMLHttpRequest();
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    document.getElementById("poll").innerHTML=xmlhttp.responseText;
+            xml = new XMLHttpRequest();
+            xml.onreadystatechange=function(){
+                if (xml.readyState==4 && xml.status==200) {
+                    document.getElementById("poll").innerHTML=xml.responseText;
                 }
             }
-            xmlhttp.open("GET","pollCollector.php?vote="+vote,true);
-            xmlhttp.send();
+            xml.open('GET',"pollResults.txt",true);
+
+            var pastResults = xml.responseText;
+            var pastResultsArray = pastResults.split('||');
+            var vote1 = pastResultsArray[0];
+            var vote2 = pastResultsArray[1];
+            var vote3 = pastResultsArray[2];
+            var vote4 = pastResultsArray[3];
+
+            if (vote == 0) {
+                vote1 += 1;
+            }
+            if (vote == 1) {
+                vote2 += 1;
+            }
+            if (vote == 2) {
+                vote3 += 1;
+            }
+            if (vote == 3) {
+                vote4 += 1;
+            }
+            console.log(vote1)
         }
     </script>
 
 </head>
 
 <body>
+<div id="locker">
 <div id="wrap">
-<section id="left">
+
+    <div id="board">
+        <section id="left">
 	<header id="mainheader">
-	<img src="/images/logo_for_website2.psd" width="250" height="120" alt="CleanRed | Free CSS Template">
-    <h1 id="sitename">YourDomain.Com - Welcome to CleanRed's Web Design Portfolio</h1>
+
+    <h1 id="sitename"></h1>
     </header>
     <nav id="mainnav">
-		<ul>
+		<ul class="notepad-links">
         	<li class="current"><a href="index.html">Home</a></li>
             <li><a href="tips.html">Tips</a></li>
             <li><a href="single.html">Blog</a></li>
-            <li><a href="page.html">About</a></li>
+            <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
 	</nav>
 
-	<div id="search">
-    	<form action="#">
-        <div id="searchfield"><input type="text" name="search" id="s"></div>
-      	<div id="searchbtn"><input type="image" src="images/searchgobtn.png" alt="search"></div>
-        </form>
-	</div>
+
 
     <section id="sidebar">
         <div class="sb-block">
@@ -158,16 +176,16 @@
                 <h1>What is your favorite Pokemon?</h1>
                 <form>
                     Mudkip:
-                    <input type="radio" name="vote" value="0" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='0' onclick="poll(this.value)"><br>
                     Bidoof:
-                    <input type="radio" name="vote" value="1" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='1' onclick="poll(this.value)"><br>
                     Cyndaquil:
-                    <input type="radio" name="vote" value="2" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='2' onclick="poll(this.value)"><br>
                     Will McGrath:
-                    <input type="radio" name="vote" value="3" onclick="poll(this.value)">
+                    <input type="radio" name="vote" value='3' onclick="poll(this.value)">
                 </form>
             </div>
-            <a href=""><img src="images/Untitled-2.jpg" width="182" height="174" alt="css heaven free css templates"></a>
+            <a href=""></a>
         </div>
     <div class="sb-block">
     <h2>Categories</h2>
@@ -184,18 +202,19 @@
     
     
     
-    <div id="sociallinks"> <a href="URL HERE"><img src="images/fb-icon.jpg" width="33" height="32" alt="facebook"></a> <a href="#"><img src="images/twt-icon.jpg" width="33" height="32" alt="twitter"></a> <a href="#"><img src="images/flkr-icon.jpg" width="33" height="32" alt="flickr"></a> <a href="#"><img src="images/be-icon.jpg" width="33" height="32" alt="behance"></a> </div>
+    <div id="sociallinks"> <a href="#"><img src="images/fb-icon.jpg" width="33" height="32" alt="facebook"></a> <a href="#"><img src="images/twt-icon.jpg" width="33" height="32" alt="twitter"></a> <a href="#"><img src="images/flkr-icon.jpg" width="33" height="32" alt="flickr"></a> <a href="#"><img src="images/be-icon.jpg" width="33" height="32" alt="behance"></a> </div>
     </section>
 </section>
 
 <section id="right">
+
 	<header id="pageheader">
    		<div id="intro">
         	<div id="introwrap">
-            <h2>Iowa Christian Academy</h2>
-            <p>The following button is a link <a href="http://www.koalastothemax.com">Test Link</a></p>
+            <h2></h2>
+
             </div>
-                    <a href="#" class="resume">Download Resume</a>
+
 
         </div>
     </header>
@@ -208,7 +227,7 @@
     <span class="articlemeta"><a href="#"></a></span>
     
     </header>
-    <div>
+    <div class="entry">
 
     <p>Everyone at some point in their school career has been stressed out. Whether it be because or sports, friendships, jobs, or test anxiety it happens to everyone. With this website, not only will you get simple tips on how to help you to calm down and use your time wisely, bu you will get a calendar that will help you know when assignments are due, when tests will be held and when school events will be.  <a href="#"></a></p>
         <p>Planners are one of the most beneficial things you can do not only for your grades but just to organize your life. Things you should put in your planner include assignments, tests, quizzes, and after school events you will be attending so you can plan out when you have time to study. In order for your planner to really work for you, you should use it every single day. Check it in the morning, check it at night, and throughout the day write what you need to be doing. Highlight any assignments that are important or certain assignments that are tests with different colors. For example, highlight tests with a pink highlighter and any homework assignments with a yellow highlighter. This will help you categorize certain things. You could also use sticky notes to mark down when certain events will be, such as a project being due. Using a planner will help you track down what you need to do and help everything be planned accordingly. It also reduces a lot of stress. Writing down assignments helps you feel more in control of things. Good luck, students! Happy planning!  </p>
@@ -217,8 +236,11 @@
 
     </article>
 
+
+
+
     
-      <a href="blog.html"><img src="images/View%20more.psd" width="135" height="36" alt="view more"></a>
+      <a href="blog.html"><img src="images/View%20more.png" width="135" height="36" alt="view more"></a>
     </section>
     <section id="photos">
     <h2 class="subhead">Photoblog</h2>
@@ -231,34 +253,31 @@
     <img src="images/planner.jpg" width="170" height="113" alt="rain">
     <p class="caption"><a href="#"></a></p>
     </div>
-    
-    <div class="imagepost">
-    <img src="images/Study_struggle.jpg" width="170" height="113" alt="rain">
-    <p class="caption"><a href="#"></a></p>
-    </div>
-    <a href="photo.html"><img src="images/View%20more.psd" width="135" height="36" alt="view more"></a> </section>
-    
-    <div class="clear"></div>
+
+    </section>
+
+
     </section>
 </section>
-<div class="clear"></div>
-</div>
-<footer id="pagefooter">
 
+</div>
+
+
+</div>
+
+<footer id="pagefooter">
+</div>
 <div id="footerwrap">
 
 <div id="about">
 
 <h2>About</h2>
-<div class="myphoto">
 
 
-  <img src="images/imgthumb.jpg" width="120" height="130" alt="your photo"></div>
 <div class="about-text">
 <p>
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis placerat eleifend. Nam vel cursus nulla. Nunc quis tellus et tellus auctor ullamcorper. Cum sociis natoque 		
-    penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum id purus risus, id vestibulum felis. <a href="/about"> Read More </a></p>
+ </a></p>
 
 </div>
 </div>
@@ -266,30 +285,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis p
 <h2>Services</h2>
 <ul>
 
-	<li>Website &amp; UI design</li>
-	<li>WordPress Themes</li>
-	<li>Custom CSS Templates</li>
-	<li>PSD to HTML / CSS</li>
-	<li>Graphics Design</li>
-	<li>Web Development</li>
+
 </ul>
 </div>
 <div id="tools">
 <h2>Expertise</h2>
 <ul>
 
-	<li>Clean, Accessible &amp; Usable Web Designs.</li>
-    <li>HTML, XHTML, HTML5, CSS3 &amp; jQuery</li>
-    <li>Developing Custom WordPress Themes</li>
-    <li>Graphics Design</li>
-    <li>Web Development</li>
-    <li>Web Standards</li>
+
 </ul>
+
 </div>
 <div class="clear"></div>
 </div>
 <div id="credits">
-2010 &copy; YourDomain.Com | Web Designer  | Designed by CSSHeaven.org | <a href="http://www.html5xcss3.com">html5xcss3.com</a>  </div>
+</a>  </div>
 </footer>
 </body>
 </html>
