@@ -45,8 +45,6 @@
                     var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
                     var eventDay = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') - 2, event.summary.$t.indexOf(', ')));
 
-                    console.log(description)
-
                     var monthList = {
                         'jan': 1,
                         'feb': 2,
@@ -122,7 +120,7 @@
                 if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                     document.getElementById("poll").innerHTML=xmlhttp.responseText;
                 }
-            }
+            };
             xmlhttp.open("GET","pollCollector.php?vote="+vote,true);
             xmlhttp.send();
         }
@@ -154,22 +152,19 @@
 
     <section id="sidebar">
         <div class="sb-block">
-<<<<<<< HEAD
-=======
             <div id="poll">
                 <h1>What is your favorite Pokemon?</h1>
                 <form>
                     Mudkip:
-                    <input type="radio" name="vote" value="0" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='0' onclick="poll(this.value)"><br>
                     Bidoof:
-                    <input type="radio" name="vote" value="1" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='1' onclick="poll(this.value)"><br>
                     Cyndaquil:
-                    <input type="radio" name="vote" value="2" onclick="poll(this.value)"><br>
+                    <input type="radio" name="vote" value='2' onclick="poll(this.value)"><br>
                     Will McGrath:
-                    <input type="radio" name="vote" value="3" onclick="poll(this.value)">
+                    <input type="radio" name="vote" value='3' onclick="poll(this.value)">
                 </form>
             </div>
->>>>>>> origin/gh-pages
             <a href=""></a>
         </div>
     <div class="sb-block">
@@ -187,7 +182,7 @@
     
     
     
-    <div id="sociallinks"> <a href="http://www.koalastothemax.com"><img src="images/fb-icon.jpg" width="33" height="32" alt="facebook"></a> <a href="#"><img src="images/twt-icon.jpg" width="33" height="32" alt="twitter"></a> <a href="#"><img src="images/flkr-icon.jpg" width="33" height="32" alt="flickr"></a> <a href="#"><img src="images/be-icon.jpg" width="33" height="32" alt="behance"></a> </div>
+    <div id="sociallinks"> <a href="#"><img src="images/fb-icon.jpg" width="33" height="32" alt="facebook"></a> <a href="#"><img src="images/twt-icon.jpg" width="33" height="32" alt="twitter"></a> <a href="#"><img src="images/flkr-icon.jpg" width="33" height="32" alt="flickr"></a> <a href="#"><img src="images/be-icon.jpg" width="33" height="32" alt="behance"></a> </div>
     </section>
 </section>
 
@@ -228,7 +223,16 @@
       <a href="blog.html"><img src="images/View%20more.png" width="135" height="36" alt="view more"></a>
     </section>
     <section id="photos">
-
+    <h2 class="subhead">Photoblog</h2>
+    <div class="imagepost">
+    <img src="images/bookcorrect.jpg" width="170" height="113" alt="rain">
+    <p class="caption"><a href="#"></a></p>
+    </div>
+    
+    <div class="imagepost">
+    <img src="images/planner.jpg" width="170" height="113" alt="rain">
+    <p class="caption"><a href="#"></a></p>
+    </div>
 
     </section>
 
@@ -236,15 +240,46 @@
     </section>
 </section>
 
+</div>
 
 
 </div>
 
 <footer id="pagefooter">
+</div>
+<div id="footerwrap">
+
+<div id="about">
+
+<h2>About</h2>
+
+
+<div class="about-text">
+<p>
+
+ </a></p>
 
 </div>
 </div>
+<div id="services">
+<h2>Services</h2>
+<ul>
 
+
+</ul>
+</div>
+<div id="tools">
+<h2>Expertise</h2>
+<ul>
+
+
+</ul>
+
+</div>
+<div class="clear"></div>
+</div>
+<div id="credits">
+</a>  </div>
 </footer>
 </body>
 </html>
