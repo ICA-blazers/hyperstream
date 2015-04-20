@@ -10,6 +10,7 @@
 <link href="style.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
 
 <script src="js/belatedPNG.js"></script>
 <script>
@@ -20,7 +21,6 @@
         $(function() {
             $.ajax({
                 method: 'GET',
-
                 url: 'https://www.google.com/calendar/feeds/h965v5kurp2qi8cgo0nqgt1ue4%40group.calendar.google.com/public/basic?alt=json'
             }).then(function(data) {
                 console.log('Yay!');
@@ -114,20 +114,29 @@
         });
     </script>
     <script>
-        function poll(vote) {
-            if (window.XMLHttpRequest) {
-                xmlhttp=new XMLHttpRequest();
-            } else {
-                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        var fb = new Firebase("https://amber-heat-8120.firebaseio.com"),
+                currentPollValues;
+        fb.child('poll').on('value', function(snapshot) {
+            currentPollValues = snapshot.val();
+        });
+        function poll (pollChoice){
+            currentPollValues[pollChoice] = (currentPollValues[pollChoice] || 0) + 1;
+            fb.child('poll').set(currentPollValues);
+            var HTML= [];
+            var pollTotal = 0
+            for (var i; i < currentPollValues.length; i++) {
+                pollTotal = currentPollValues[i]+ pollTotal;
             }
-            xmlhttp.onreadystatechange=function() {
-                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                    document.getElementById("poll").innerHTML=xmlhttp.responseText;
-                }
-            };
-            xmlhttp.open("GET",'pollCollector.php?test='+ vote,true);
-            xmlhttp.send();
+            for (var i; i < currentPollValues.length; i++) {
+                var width = currentPollValues[i]/pollTotal
+                HTML.push(
+                        '<div class="poll-result" style="width: ' +width+ '">'
+                )
+            }
+
+            document.getElementById('poll').innerHTML = HTML.join("")
         }
+
     </script>
 
 </head>
@@ -178,7 +187,7 @@
                     Cyndaquil:
                     <input type="radio" name="vote" value='2' onclick="poll(this.value)"><br>
                     Will McGrath:
-                    <input type="radio" name="vote" value='3' onclick="poll(this.value)">
+                    <input type="radio" name="vote" value='3' onclick="poll(this.value)"><br>
                 </form>
             </div>
 
