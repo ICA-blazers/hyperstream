@@ -115,22 +115,39 @@
     </script>
     <script>
         var fb = new Firebase("https://amber-heat-8120.firebaseio.com"),
-                currentPollValues;
+                currentPollValues,
+                currentOptions;
         fb.child('poll').on('value', function(snapshot) {
             currentPollValues = snapshot.val();
+        });
+        fb.child('options').on('value', function(snapshot) {
+            currentOptions = snapshot.val();
         });
         function poll (pollChoice){
             currentPollValues[pollChoice] = (currentPollValues[pollChoice] || 0) + 1;
             fb.child('poll').set(currentPollValues);
+            fb.child('options').set(currentOptions);
             var HTML= [];
             var pollTotal = 0
-            for (var i; i < currentPollValues.length; i++) {
+            for (var i=0; i < currentPollValues.length; i++) {
                 pollTotal = currentPollValues[i]+ pollTotal;
             }
-            for (var i; i < currentPollValues.length; i++) {
-                var width = currentPollValues[i]/pollTotal
+
+            var currentOptions
+            fb.child('options').on('value', function(snapshot) {
+                currentOptions = snapshot.val()}
+            fb.child('options').set(currentOptions);
+
+            console.log(pollTotal)
+            for (var j=0; j < currentPollValues.length; j++) {
+                var width = Math.round((currentPollValues[j]/pollTotal)*100)
+                console.log(width)
                 HTML.push(
-                        '<image class="poll-result" style="width: ' +width+ '">'
+                        "<div class='pollTitle'>" + currentOptions[j]
+                        "<img src='images/pollBar.gif' class='pollResult' width=2*width+'px' height='20px'>" +
+                        "<div class='pollPercent'>"+ width + '%' + "</div>" +
+                        "<br>"
+
                 )
             }
 
