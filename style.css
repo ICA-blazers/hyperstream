@@ -22,11 +22,13 @@ body { font-family:"Helvetica Neue", Helvetica, Verdana, sans-serif; font-size:6
 p, ul, ol {font-size:1.2em;}
 a {color: #187211; text-decoration:none;}
 a:hover {color:#000;}
+a.active {background-color: #f3ff6a; width: 53px}
 #mainnav li { display:block; font-family:"Gloria Hallelujah", Helvetica, Verdana, sans-serif; font-size: 125%}
 #mainnav ul {padding: 25px;}
 #mainnav a {display:block; height:30px; line-height:40px; padding: 0 7px; color:#635a4e; }
-#mainnav .current a {background:url(images/) center bottom no-repeat; }
+#mainnav .current a {background:url(images/) center bottom no-repeat;}
 #mainnav a:hover {background-color: #f3ff6a; width: 53px}
+#mainnav a:active {background-color: #f3ff6a; width: 53px}
 a.resume {position:absolute; display:block; background:url(images/resumelink.png) no-repeat; width:215px; height:93px; right:0; bottom:0; text-indent:-4000px; overflow:hidden; z-index:500;}
 #search {background:url(images/searchfield.png) no-repeat; height:33px; margin-bottom:40px;}
 #searchfield {float:left; width:160px; padding:3px 3px 0 10px;}
