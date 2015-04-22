@@ -116,37 +116,36 @@
     <script>
         var fb = new Firebase("https://amber-heat-8120.firebaseio.com"),
                 currentPollValues,
-                currentOptions;
+                currentOptions = ['test'];
         fb.child('poll').on('value', function(snapshot) {
             currentPollValues = snapshot.val();
         });
-        fb.child('options').on('value', function(snapshot) {
-            currentOptions = snapshot.val();
+
+        fb.child('options').once('value', function(snap){
+            snap.forEach(function(message){
+                var options = message.val();
+                console.log(options);
+                currentOptions = currentOptions + ',' + options;
+                console.log(currentOptions);
+            })
         });
         function poll (pollChoice){
             currentPollValues[pollChoice] = (currentPollValues[pollChoice] || 0) + 1;
             fb.child('poll').set(currentPollValues);
-            fb.child('options').set(currentOptions);
+
+            var currentOptionsArray = currentOptions.split(',');
+            console.log(currentOptionsArray[1]);
             var HTML= [];
-            var pollTotal = 0
+            var pollTotal = 0;
             for (var i=0; i < currentPollValues.length; i++) {
                 pollTotal = currentPollValues[i]+ pollTotal;
             }
-
-            var currentOptions
-            fb.child('options').on('value', function(snapshot) {
-                currentOptions = snapshot.val()}
-            fb.child('options').set(currentOptions);
-
-            console.log(pollTotal)
             for (var j=0; j < currentPollValues.length; j++) {
-                var width = Math.round((currentPollValues[j]/pollTotal)*100)
-                console.log(width)
+                var width = Math.round((currentPollValues[j]/pollTotal)*100);
                 HTML.push(
-                        "<div class='pollTitle'>" + currentOptions[j]
-                        "<img src='images/pollBar.gif' class='pollResult' width=2*width+'px' height='20px'>" +
-                        "<div class='pollPercent'>"+ width + '%' + "</div>" +
-                        "<br>"
+                        "<div class='pollTitle'>" + currentOptionsArray[j+1] + ":" + "</div>" +
+                        "<img src='images/pollBar.gif' class='pollBar' width= " + 2*width + 'px' + " height='20px'>" +
+                        "<div class='pollPercent'>" + " " + width + '%' + "</div>"
                 )
             }
 
