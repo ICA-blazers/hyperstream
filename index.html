@@ -116,7 +116,7 @@
     <script>
         var fb = new Firebase("https://amber-heat-8120.firebaseio.com"),
                 currentPollValues,
-                currentOptions = ['start'];
+                currentOptions = ['test'];
         fb.child('poll').on('value', function(snapshot) {
             currentPollValues = snapshot.val();
         });
@@ -129,27 +129,23 @@
                 console.log(currentOptions);
             })
         });
-
-        currentOptions = currentOptions.split(',')
-        console.log(currentOptions[1])
-
         function poll (pollChoice){
             currentPollValues[pollChoice] = (currentPollValues[pollChoice] || 0) + 1;
             fb.child('poll').set(currentPollValues);
 
+            var currentOptionsArray = currentOptions.split(',');
+            console.log(currentOptionsArray[1]);
             var HTML= [];
-            var pollTotal = 0
+            var pollTotal = 0;
             for (var i=0; i < currentPollValues.length; i++) {
                 pollTotal = currentPollValues[i]+ pollTotal;
             }
             for (var j=0; j < currentPollValues.length; j++) {
-                var width = Math.round((currentPollValues[j]/pollTotal)*100)
-                console.log(width)
+                var width = Math.round((currentPollValues[j]/pollTotal)*100);
                 HTML.push(
-                        "<div class='pollTitle'>" + currentOptions[j+1] +
-                        "<img src='images/pollBar.gif' class='pollResult' width= " + 2*width + 'px' + " height='20px'>" +
-                        "<div class='pollPercent'>"+ width + '%' + "</div>" +
-                        "<br>"
+                        "<div class='pollTitle'>" + currentOptionsArray[j+1] + ":" + "</div>" +
+                        "<img src='images/pollBar.gif' class='pollBar' width= " + 2*width + 'px' + " height='20px'>" +
+                        "<div class='pollPercent'>" + " " + width + '%' + "</div>"
                 )
             }
 
