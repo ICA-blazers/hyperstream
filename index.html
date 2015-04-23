@@ -21,7 +21,7 @@
         $(function() {
             $.ajax({
                 method: 'GET',
-                url: 'https://www.google.com/calendar/feeds/h965v5kurp2qi8cgo0nqgt1ue4%40group.calendar.google.com/public/basic?alt=json'
+                url: 'https://www.google.com/calendar/feeds/sk03mm2gco075qhua79o0963q8@group.calendar.google.com/public/basic?alt=json'
             }).then(function(data) {
                 console.log('Yay!');
                 console.log('%o', data);
@@ -124,9 +124,7 @@
         fb.child('options').once('value', function(snap){
             snap.forEach(function(message){
                 var options = message.val();
-                console.log(options);
                 currentOptions = currentOptions + ',' + options;
-                console.log(currentOptions);
             })
         });
         function poll (pollChoice){
@@ -134,7 +132,6 @@
             fb.child('poll').set(currentPollValues);
 
             var currentOptionsArray = currentOptions.split(',');
-            console.log(currentOptionsArray[1]);
             var HTML= [];
             var pollTotal = 0;
             for (var i=0; i < currentPollValues.length; i++) {
