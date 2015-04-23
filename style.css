@@ -38,6 +38,7 @@ a.resume {position:absolute; display:block; background:url(images/resumelink.png
 .sb-block {margin-bottom:5px;}
 #video {padding-left: 65px; text-align: left; width: 420px; display: inline-block}
 #poll {font-family: "Gloria Hallelujah", Helvetica, Verdana, sans-serif; color: midnightblue;}
+#calendar {width: 600px; height: 400px}
 
 h2 {font-family: 'Museo300', Verdana, sans-serif; font-size:2.2em; color:#635a4e; font-weight:normal;}
 #sidebar h2 {margin-bottom:15px;}
