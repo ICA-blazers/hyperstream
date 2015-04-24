@@ -66,8 +66,8 @@ h2 {font-family: 'Museo300', Verdana, sans-serif; font-size:2.2em; color:#635a4e
 
 #events {margin-top: 0px; background-image: url(images/whiteboard.png); background-position: center center; background-repeat: no-repeat; width: 240px; height: 364px; display: block; margin-left: 30px;}
 #upcomingEvents {margin-top: 0px; margin-left: 30px; padding-top: 75px; text-align: left;}
-.eventTitle { font-family:"Gloria Hallelujah", Helvetica, Verdana, sans-serif; font-size: 140%; color: crimson;}
-.eventTime {font-family:"Gloria Hallelujah", Helvetica, Verdana, sans-serif; font-size: 110%; color: midnightblue;}
+#eventTitle { font-family:"Gloria Hallelujah", Helvetica, Verdana, sans-serif; font-size: 140%; color: crimson;}
+#eventTime {font-family:"Gloria Hallelujah", Helvetica, Verdana, sans-serif; font-size: 110%; color: midnightblue;}
 
 .subhead {font:bold 2.0em 'TeXGyreAdventor', Arial, sans-serif; color: #187211; padding:0 0 8px 0; margin-bottom:10px; background:url(images/subheadbggreen.jpg) left bottom no-repeat;}
 .imagepost {text-align:right; vertical-align: top; width:200px;  display: inline-block}
@@ -99,9 +99,9 @@ h2 {font-family: 'Museo300', Verdana, sans-serif; font-size:2.2em; color:#635a4e
 .pfdetails .sitename { font: normal normal 1.2em 'Museo300', Verdana, sans-serif!important; display:block; margin-bottom:10px; color:#ca4133;}
 .pfdetails p {padding-top:20px;}
 .singlepost {border:none!important;}
-.pollTitle {font-family: "Gloria Hallelujah", Helvetica, Verdana, sans-serif; color: midnightblue; text-align: left;}
-.pollPercent {margin-left: 50px; text-align: left; color: midnightblue; font-family: "Gloria Hallelujah", Helvetica, Verdana, sans-serif; padding-left: 10px}
-.pollBar {float: left; background: crimson;}
+#pollTitle {font-family: "Gloria Hallelujah", Helvetica, Verdana, sans-serif; color: midnightblue; text-align: left;}
+#pollPercent {margin-left: 50px; text-align: left; color: midnightblue; font-family: "Gloria Hallelujah", Helvetica, Verdana, sans-serif; padding-left: 10px}
+#pollBar {float: left; background: crimson;}
 
 #rightsidebar {width:190px; float:right; margin-right:10px;}
 .post li {display:block; background-color: #ffffff) 0 5px no-repeat; padding-left:20px; line-height:18px;}
