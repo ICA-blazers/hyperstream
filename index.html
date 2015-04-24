@@ -95,7 +95,7 @@
                             eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
                     ){
                         html.push(
-                                '<div class="eventTitle" onclick=function()>',
+                                '<div class="eventTitle">',
                                 eventSorted[i].title,
                                 '</div>',
                                 '<div class="eventTime">',
@@ -136,7 +136,7 @@
                 var width = Math.round((currentPollValues[j]/pollTotal)*100);
                 HTML.push(
                         "<div class='pollTitle'>" + currentOptionsArray[j+1] + ":" + "</div>" +
-                        "<img src='images/pollBar.gif' class='pollBar' width= " + 2*width + 'px' + " height='20px'>" +
+                        "<img class='pollBar' width= " + 2*width + 'px' + " height='20px'>" +
                         "<div class='pollPercent'>" + " " + width + '%' + "</div>"
                 )
             }
