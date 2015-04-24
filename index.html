@@ -23,8 +23,6 @@
                 method: 'GET',
                 url: 'https://www.google.com/calendar/feeds/tucddft45vep5q3ipj6elgnqog@group.calendar.google.com/public/basic?alt=json'
             }).then(function(data) {
-                console.log('Yay!');
-                console.log('%o', data);
                 var events = data.feed.entry || []; //    USE HERE    https://developers.google.com/gdata/docs/json
                 var html = [];
                 var eventSorted = [];
@@ -86,7 +84,7 @@
                 });
 
 
-                for (var i=0; i < events.length && i < 10; ++i) {
+                for (var i=0; i < events.length || i < 10; ++i) {
 
                     var currentDate = new Date();
                     var currentDay = currentDate.getDate();
@@ -108,9 +106,9 @@
                                 eventSorted[i].description,
                                 '</div>');
                     }
-                    console.log(eventSorted[i].title)
+                    console.log(eventSorted[i].id)
                 }
-                document.getElementById("upcomingEvents").innerHTML = html.join("");
+                document.getElementById("upcomingEvents").innerHTML = html.join();
             })
         });
     </script>
