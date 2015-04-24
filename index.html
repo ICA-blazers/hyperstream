@@ -38,7 +38,6 @@
                         var description = ('');
                     }
                     var where = (event.summary.$t.substring(event.summary.$t.indexOf('\u003eWhere:')+8, event.summary.$t.indexOf('\n\u003cbr\u003eEvent Status:')));
-                    var link = ()
 
                     var eventMonth = event.summary.$t.substring(event.summary.$t.indexOf('When: ')+10, event.summary.$t.indexOf('When: ')+13).toLowerCase();
                     var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
@@ -96,7 +95,7 @@
                             eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
                     ){
                         html.push(
-                                '<div class="eventTitle">',
+                                '<div class="eventTitle" onclick=function()>',
                                 eventSorted[i].title,
                                 '</div>',
                                 '<div class="eventTime">',
