@@ -27,8 +27,8 @@
                 var html = [];
                 var eventSorted = [];
 
-                for (var i = 0; i < events.length; ++i) {
-                    var event = events[i];
+                for (var j = 0; j < events.length; ++j) {
+                    var event = events[j];
                     var title = (event.title.type == 'html') ? event.title.$t : escape(event.title.$t);
                     var when = (event.summary.$t.substring(event.summary.$t.indexOf("When:")+6, event.summary.$t.indexOf('\u003cbr')));
                     if (event.summary.$t.indexOf('\n\u003cbr\u003eEvent Description:') != -1){
@@ -38,6 +38,7 @@
                         var description = ('');
                     }
                     var where = (event.summary.$t.substring(event.summary.$t.indexOf('\u003eWhere:')+8, event.summary.$t.indexOf('\n\u003cbr\u003eEvent Status:')));
+                    var link = ()
 
                     var eventMonth = event.summary.$t.substring(event.summary.$t.indexOf('When: ')+10, event.summary.$t.indexOf('When: ')+13).toLowerCase();
                     var eventYear = parseInt(event.summary.$t.substring(event.summary.$t.indexOf(', ') + 2, event.summary.$t.indexOf(', ') + 6));
@@ -60,7 +61,7 @@
                     var eventMonthNumber = monthList[eventMonth];
 
                     var eventObject = {
-                        id: i,
+                        id: j,
                         title: title,
                         year: eventYear,
                         month: eventMonthNumber,
@@ -70,8 +71,7 @@
                         where: where
                     };
                     eventSorted.push(eventObject);
-                }
-
+                };
 
                 eventSorted.sort(function (a,b){
                     if (a.year > b.year) return 1;
@@ -83,8 +83,7 @@
                     if (a.year < b.year) return -1;
                 });
 
-
-                for (var i=0; i < events.length || i < 10; ++i) {
+                for (var i= 0,counter=0; i < events.length && counter < 5; ++i) {
 
                     var currentDate = new Date();
                     var currentDay = currentDate.getDate();
@@ -97,18 +96,16 @@
                             eventSorted[i].year == currentYear && eventSorted[i].month == currentMonth && eventSorted[i].day >= currentDay
                     ){
                         html.push(
+                                '<div class="eventTitle">',
                                 eventSorted[i].title,
-                                ' ',
-                                '<span class=date>',
+                                '</div>',
+                                '<div class="eventTime">',
                                 eventSorted[i].when,
-                                '</span>',
-                                '<div>',
-                                eventSorted[i].description,
                                 '</div>');
+                        counter+=1
                     }
-                    console.log(eventSorted[i].id)
                 }
-                document.getElementById("upcomingEvents").innerHTML = html.join();
+                document.getElementById("upcomingEvents").innerHTML = html.join("");
             })
         });
     </script>
