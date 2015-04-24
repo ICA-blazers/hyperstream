@@ -105,8 +105,7 @@ h2 {font-family: 'Museo300', Verdana, sans-serif; font-size:2.2em; color:#635a4e
 
 #rightsidebar {width:190px; float:right; margin-right:10px;}
 .post li {display:block; background-color: #ffffff) 0 5px no-repeat; padding-left:20px; line-height:18px;}
-
-
+#calendar {border-radius: 10px; width: 700px; height: 600px}
 
 .entry .avatar {height:45px; margin-bottom:10px;}
 #commentlist .entry {border:solid 1px #d0cbc2; padding:10px; margin-bottom:10px; background:#f8f5f1;}
