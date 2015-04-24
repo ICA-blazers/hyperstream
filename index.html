@@ -16,7 +16,6 @@
 <script>
 	DD_belatedPNG.fix('*');
 </script>
-
     <script>
         $(function() {
             $.ajax({
@@ -140,7 +139,6 @@
                         "<div class='pollPercent'>" + " " + width + '%' + "</div>"
                 )
             }
-
             document.getElementById('poll').innerHTML = HTML.join("")
         }
 
@@ -206,8 +204,8 @@
             </div>
 
 
-    <section id="homemain">
-    <article class="post">
+    <section id="homemain" style="border-radius: 10px">
+    <article class="post" style="border-radius: 10px">
     <header>
     <h2><a href="#"></a></h2>
     <span class="articlemeta"><a href="#"></a></span>
@@ -226,7 +224,7 @@
 
     </section>
         <section id="photos">
-            <div id="poll">
+            <span id="poll">
                 <h1>How many hours of homework do you do every night?</h1>
                 <form>
                     0 hours:
@@ -238,7 +236,7 @@
                     3+ hours:
                     <input type="radio" name="vote" value='3' onclick="poll(this.value)"><br>
                 </form>
-            </div>
+            </span>
         </section>
 
 
